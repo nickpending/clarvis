@@ -81,12 +81,15 @@ full = "Format for speech but preserve ALL content. Make it speakable."
 [voice]
 # Provider: "elevenlabs" for premium voices or "system" for free TTS
 provider = "elevenlabs"
-# provider = "system"  # Use this for free system TTS (Mac say, Windows SAPI, etc.)
+# provider = "system"  # Use this for free system TTS (uses your system default voice)
 
 # ElevenLabs configuration (only needed if provider = "elevenlabs")
 # Get your API key at: https://elevenlabs.io/
 api_key = "..."  # Replace with your ElevenLabs API key (no prefix)
 voice_id = "YOUR_VOICE_ID_HERE"  # Create a JARVIS-style voice in ElevenLabs
+
+# Note: When using provider = "system", voice_id is ignored.
+# System TTS uses whatever voice you've selected in System Preferences.
 
 # Cache threshold for semantic similarity (0.0-1.0)
 # Higher = more strict matching, lower = more cache hits

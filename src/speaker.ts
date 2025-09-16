@@ -33,8 +33,8 @@ export class Speaker {
         args.push('--provider', this.voiceConfig.provider);
       }
       
-      // Add voice ID if specified
-      if (this.voiceConfig.voice_id) {
+      // Add voice ID if specified (except for system provider - use system default)
+      if (this.voiceConfig.voice_id && this.voiceConfig.provider !== 'system') {
         args.push('--voice', this.voiceConfig.voice_id);
       }
       

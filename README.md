@@ -196,11 +196,10 @@ api_key = "sk_..."  # ElevenLabs API key
 voice_id = "YOUR_VOICE_ID_HERE"  # Create a JARVIS-style voice in ElevenLabs
 cache_threshold = 0.90
 
-# Note: For ElevenLabs, you'll need to:
-# 1. Sign up at https://elevenlabs.io/
-# 2. Create a new voice (try "British Male" with professional settings)
-# 3. Copy the voice ID from the voice settings
-# 4. Use "system" provider for free TTS if you don't want ElevenLabs
+# Notes:
+# - For ElevenLabs: Create a custom voice at https://elevenlabs.io/ and use its ID
+# - For system TTS: Uses your default system voice (ignore voice_id)
+# - System TTS uses whatever voice you've selected in System Preferences
 ```
 
 ## Quick Start
