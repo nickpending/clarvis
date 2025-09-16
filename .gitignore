@@ -36,6 +36,7 @@ temp/
 .claude/
 .agent/
 .workflow/
+TASKS.md
 tsconfig.tsbuildinfo
 
 # Python (legacy)
