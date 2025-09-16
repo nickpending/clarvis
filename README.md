@@ -80,14 +80,7 @@ npm install -g pnpm
 
 ### Install clarvis
 
-**Quick Install (Recommended):**
-
-```bash
-# One-liner install script
-curl -fsSL https://raw.githubusercontent.com/nickpending/clarvis/main/install.sh | bash
-```
-
-**Manual Install:**
+**Manual Install (Currently Required):**
 
 ```bash
 # Clone repository
