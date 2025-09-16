@@ -214,10 +214,11 @@ For clarvis to work, Claude needs to output metadata lines that specify the mode
 > `clarvis:[mode:MODE project:PROJECT_NAME]`
 >
 > **Available modes:**
+> - `default` - Minimal updates (1 sentence)
 > - `development` - Brief technical updates (2 sentences)
 > - `writing` - Detailed progress for documentation work (3 sentences)
 > - `research` - Detailed analysis summaries (3 sentences)
-> - `default` - Minimal updates (1 sentence)
+> - `conversation` - Natural discussion flow (3 sentences)
 >
 > **Example:** `clarvis:[mode:development project:auth-system]`
 
@@ -302,15 +303,15 @@ clarvis processes Claude Code hook events through this pipeline:
 Control verbosity per project type:
 
 ```markdown
-# Quick bug fix - minimal interruption
+# Quick bug fix - minimal interruption (brief style)
 clarvis:[mode:development project:bugfix]
 Fix the null pointer exception in auth...
 
-# Complex feature - more detail
-clarvis:[mode:normal project:payment-system]
+# Research work - more detail (normal style)
+clarvis:[mode:research project:payment-system]
 Implement Stripe payment integration...
 
-# Writing/docs - full detail
+# Writing/docs - full detail (normal style)
 clarvis:[mode:writing project:docs]
 Update the API documentation...
 ```
