@@ -193,8 +193,14 @@ normal = "3 sentences that flow naturally. Include status, key details, and outc
 [voice]
 provider = "elevenlabs"  # or "system" for free TTS
 api_key = "sk_..."  # ElevenLabs API key
-voice_id = "7ef0dNC4WCJSHHzPz37K"  # Jarvice voice
+voice_id = "YOUR_VOICE_ID_HERE"  # Create a JARVIS-style voice in ElevenLabs
 cache_threshold = 0.90
+
+# Note: For ElevenLabs, you'll need to:
+# 1. Sign up at https://elevenlabs.io/
+# 2. Create a new voice (try "British Male" with professional settings)
+# 3. Copy the voice ID from the voice settings
+# 4. Use "system" provider for free TTS if you don't want ElevenLabs
 ```
 
 ## Quick Start

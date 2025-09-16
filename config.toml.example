@@ -86,7 +86,7 @@ provider = "elevenlabs"
 # ElevenLabs configuration (only needed if provider = "elevenlabs")
 # Get your API key at: https://elevenlabs.io/
 api_key = "..."  # Replace with your ElevenLabs API key (no prefix)
-voice_id = "7ef0dNC4WCJSHHzPz37K"  # Jarvice voice (sounds like JARVIS)
+voice_id = "YOUR_VOICE_ID_HERE"  # Create a JARVIS-style voice in ElevenLabs
 
 # Cache threshold for semantic similarity (0.0-1.0)
 # Higher = more strict matching, lower = more cache hits
