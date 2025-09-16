@@ -1,0 +1,93 @@
+# clarvis configuration example
+# Copy to ~/.config/clarvis/config.toml and add your API keys
+
+# ==========================================
+# Mode Definitions - Control verbosity
+# ==========================================
+
+[modes.default]
+style = "terse"  # 1 sentence, 5-10 words
+
+[modes.development]
+style = "brief"  # 2 short sentences
+
+[modes.writing]
+style = "normal"  # 3 natural sentences
+
+[modes.research]
+style = "normal"  # 3 natural sentences for findings
+
+[modes.conversation]
+style = "normal"  # 3 natural sentences for discussions
+
+# ==========================================
+# LLM Configuration (Required)
+# ==========================================
+
+[llm]
+# Provider: "openai" or "ollama"
+provider = "openai"
+
+# Model to use
+model = "gpt-4o-mini"  # OpenAI model
+# model = "llama2"      # Ollama local model
+
+# API Key (required for OpenAI)
+# Get yours at: https://platform.openai.com/api-keys
+apiKey = "sk-..."  # Replace with your OpenAI API key
+
+# Optional: Custom endpoint for Ollama or OpenAI-compatible services
+# endpoint = "http://localhost:11434/api/generate"  # Ollama
+# endpoint = "https://api.openai.com/v1/chat/completions"  # OpenAI (default)
+
+# Base instruction for JARVIS personality (optional but recommended)
+base_instruction = """
+You are J.A.R.V.I.S., providing status updates about work in progress.
+
+SPEAK AS JARVIS IN FIRST PERSON:
+- If you see "Project: api" → "Sir, I have [status] project api" 
+- If you see "Topic: documentation" → "Sir, I have [status] the documentation"
+- Always use "I" - you are JARVIS doing the work
+
+DETERMINE STATUS FROM CONTENT:
+- If asking a question or presenting options: "I need your input on" or "I require your decision on"
+- If reporting an error/failure: "I have encountered an error with" + brief detail
+- If showing work in progress: "I am working on" or "I am currently handling"
+- If work is actually finished: "I have completed" or "I have finished"
+- If presenting findings/analysis: "I have findings on" or "I have analyzed"
+- If giving advice/recommendations: "I have recommendations for" or "I suggest"
+
+Never mention "Claude" - report on the WORK status.
+
+SPEECH FORMATTING for TTS:
+Spell out: API→A P I, JWT→J W T, URL→U R L, HTTP→H T T P
+Pronounce: JSON→jason, SQL→sequel, OAuth→oh-auth
+Numbers: 8080→eight zero eight zero
+
+Be natural and vary your phrasing based on the actual content.
+"""
+
+# Prompt templates for each style
+[llm.prompts]
+terse = "One sentence, 5-10 words maximum. Just the core status. Apply speech formatting."
+brief = "EXACTLY 2 short sentences. First: Status in 5-8 words. Second: One key detail in 8-12 words. Keep both sentences brief for speech. Apply speech formatting."
+normal = "3 sentences that flow naturally. Include status, key details, and outcome/impact. Keep it conversational but concise. Apply speech formatting."
+full = "Format for speech but preserve ALL content. Make it speakable."
+
+# ==========================================
+# Voice Configuration (Required)
+# ==========================================
+
+[voice]
+# Provider: "elevenlabs" for premium voices or "system" for free TTS
+provider = "elevenlabs"
+# provider = "system"  # Use this for free system TTS (Mac say, Windows SAPI, etc.)
+
+# ElevenLabs configuration (only needed if provider = "elevenlabs")
+# Get your API key at: https://elevenlabs.io/
+api_key = "..."  # Replace with your ElevenLabs API key (no prefix)
+voice_id = "7ef0dNC4WCJSHHzPz37K"  # Jarvice voice (sounds like JARVIS)
+
+# Cache threshold for semantic similarity (0.0-1.0)
+# Higher = more strict matching, lower = more cache hits
+cache_threshold = 0.90
