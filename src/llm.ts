@@ -115,10 +115,12 @@ export class LLMClient {
   }
 
   async summarize(text: string, style: string, project: string, mode: string): Promise<string[]> {
-    // Full style always passes through unchanged
-    if (style === 'full') {
+    // Bypass style passes through unchanged (new raw option)
+    if (style === 'bypass') {
       return [text];
     }
+
+    // Full style now gets JARVIS treatment (no longer bypasses)
 
     // Get appropriate prompt from config
     const promptKey = style as keyof typeof this.prompts;

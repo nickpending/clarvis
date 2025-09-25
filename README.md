@@ -185,9 +185,11 @@ Numbers: 8080→eight zero eight zero
 """
 
 [llm.prompts]
-terse = "One sentence, 5-10 words maximum. Just the core status. Apply speech formatting."
-brief = "EXACTLY 2 short sentences. First: Status in 5-8 words. Second: One key detail in 8-12 words. Apply speech formatting."
-normal = "3 sentences that flow naturally. Include status, key details, and outcome/impact. Keep it conversational but concise. Apply speech formatting."
+terse = "Follow all steps above. One sentence, 5-10 words maximum. Just the core status."
+brief = "Follow all steps above. EXACTLY 2 short sentences. First: Status in 5-8 words. Second: One key detail in 8-12 words. Keep both sentences brief for speech."
+normal = "Follow all steps above. 3 sentences that flow naturally. Include status, key details, and outcome/impact. Keep it conversational but concise."
+full = "Follow all steps above. Full JARVIS response with complete details, no length limit. Preserve ALL content but make it speakable."
+bypass = "This style bypasses LLM processing entirely - raw Claude output goes directly to TTS."
 
 # Voice configuration
 [voice]
@@ -294,7 +296,8 @@ clarvis processes Claude Code hook events through this pipeline:
 - **terse**: 1 sentence summary
 - **brief**: 2 sentence summary (default)
 - **normal**: 3 sentence paragraph
-- **full**: Pass-through without summarization
+- **full**: Complete JARVIS response, no length limit
+- **bypass**: Pass-through without summarization
 
 ## Real-World Usage
 

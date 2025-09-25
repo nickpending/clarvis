@@ -4,10 +4,10 @@ import type { Config } from '../../src/types.js';
 
 describe('LLMClient - Unit Tests', () => {
   
-  describe('INVARIANT: Full mode always passes through', () => {
-    it('should always return text unchanged for full mode without API call', async () => {
+  describe('INVARIANT: Bypass mode always passes through', () => {
+    it('should always return text unchanged for bypass mode without API call', async () => {
       /**
-       * INVARIANT: Full mode must NEVER make API calls
+       * INVARIANT: Bypass mode must NEVER make API calls
        * BREAKS: Unnecessary API costs and latency if violated
        */
       const config: Config['llm'] = {
@@ -17,7 +17,8 @@ describe('LLMClient - Unit Tests', () => {
         prompts: {
           terse: 'Be terse',
           brief: 'Be brief',
-          normal: 'Be normal'
+          normal: 'Be normal',
+          full: 'Be full'
         }
       };
 
@@ -31,16 +32,16 @@ describe('LLMClient - Unit Tests', () => {
       ];
 
       for (const text of testTexts) {
-        // This must ALWAYS return text unchanged for full mode
-        const result = await client.summarize(text, 'full', 'test-project', 'development');
+        // This must ALWAYS return text unchanged for bypass mode
+        const result = await client.summarize(text, 'bypass', 'test-project', 'development');
         expect(result).toEqual([text]);
         expect(result.length).toBe(1);
       }
     });
 
-    it('should handle full mode regardless of provider configuration', async () => {
+    it('should handle bypass mode regardless of provider configuration', async () => {
       /**
-       * INVARIANT: Full mode behavior is provider-independent
+       * INVARIANT: Bypass mode behavior is provider-independent
        * BREAKS: Inconsistent behavior across providers if violated
        */
       const providers: Array<Config['llm']> = [
@@ -48,19 +49,19 @@ describe('LLMClient - Unit Tests', () => {
           provider: 'openai',
           apiKey: 'key',
           model: 'gpt-4o-mini',
-          prompts: { terse: 'T', brief: 'B', normal: 'N' }
+          prompts: { terse: 'T', brief: 'B', normal: 'N', full: 'F' }
         },
         {
           provider: 'ollama',
           model: 'llama2',
-          prompts: { terse: 'T', brief: 'B', normal: 'N' }
+          prompts: { terse: 'T', brief: 'B', normal: 'N', full: 'F' }
         }
       ];
 
       for (const config of providers) {
         const client = new LLMClient(config);
-        const result = await client.summarize('Test text', 'full', 'project', 'development');
-        
+        const result = await client.summarize('Test text', 'bypass', 'project', 'development');
+
         // Must always pass through unchanged regardless of provider
         expect(result).toEqual(['Test text']);
       }

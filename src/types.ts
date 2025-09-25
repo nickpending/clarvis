@@ -17,7 +17,7 @@ export interface ClarvisMetadata {
 export interface Config {
   modes: {
     [key: string]: {
-      style: 'silent' | 'terse' | 'brief' | 'normal' | 'full';
+      style: 'silent' | 'terse' | 'brief' | 'normal' | 'full' | 'bypass';
       cache?: boolean;  // Cache configuration per mode
     };
   };
