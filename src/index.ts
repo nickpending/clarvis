@@ -7,6 +7,7 @@ import { loadConfig } from './config.js';
 import { extractLastAssistantMessage } from './transcript.js';
 import { LLMClient } from './llm.js';
 import { Speaker } from './speaker.js';
+import { logger } from './logger.js';
 
 async function main() {
   try {
@@ -20,34 +21,47 @@ async function main() {
     if (!hook || hook.stop_hook_active) {
       process.exit(0);
     }
-    
+
     // Load config - errors bubble up for handling
     const config = loadConfig();
+
+    // Configure logger from config
+    logger.configure(config.debug);
+    logger.info('clarvis', 'Hook event received', { session: hook.session_id });
     
     // Extract message and metadata from transcript
     const { text, metadata } = await extractLastAssistantMessage(hook.transcript_path);
     if (!text) {
       process.exit(0);
     }
-    
-    // Determine mode from metadata or default to terse
-    const mode = metadata?.mode || 'default';
-    const project = metadata?.project || 'unknown';
-    
-    // Get mode configuration - throw if neither mode nor default exists
-    const modeConfig = config.modes[mode] || config.modes.default;
-    if (!modeConfig) {
-      throw new Error(`No configuration found for mode '${mode}' and no default mode configured`);
+
+    // Determine context, intent, and project from metadata with defaults
+    const context = metadata?.context || 'assistant';
+    const intent = metadata?.intent || 'discussion';
+    const project = metadata?.project;  // Optional, can be undefined
+
+    // Debug: Log metadata and context determination
+    logger.debug('index', 'Context determination', {
+      metadata,
+      resolvedContext: context,
+      resolvedIntent: intent,
+      resolvedProject: project
+    });
+
+    // Get context configuration - throw if neither context nor default exists
+    const contextConfig = config.contexts[context] || config.contexts.assistant;
+    if (!contextConfig) {
+      throw new Error(`No configuration found for context '${context}' and no assistant context configured`);
     }
-    
-    // Silent mode check - exit early before any API calls
-    if (modeConfig.style === 'silent') {
+
+    // Silent style check - exit early before any API calls
+    if (contextConfig.style === 'silent') {
       process.exit(0);
     }
-    
-    // Process through LLM if needed
+
+    // Process through LLM with explicit intent
     const llm = new LLMClient(config.llm);
-    const sentences = await llm.summarize(text, modeConfig.style, project, mode);
+    const sentences = await llm.summarize(text, contextConfig.style, context, intent, project);
     
     // Speak the sentences - require voice config, error bubbles up if missing
     if (!config.voice) {
@@ -60,7 +74,7 @@ async function main() {
     }
     
     const speaker = new Speaker(config.voice);
-    await speaker.speak(sentences, modeConfig.style, modeConfig.cache);
+    await speaker.speak(sentences, contextConfig.style, contextConfig.cache);
     
     process.exit(0);
     

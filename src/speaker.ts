@@ -58,6 +58,11 @@ export class Speaker {
     // Process each sentence sequentially to avoid audio overlap
     for (const sentence of sentences) {
       const commandArgs = buildCommand(sentence);
+
+      // Log TTS command being executed
+      const { logger } = await import('./logger.js');
+      logger.debug('speaker', 'Executing lspeak', { sentence, args: commandArgs });
+
       await $`${commandArgs}`.env(env);
     }
   }

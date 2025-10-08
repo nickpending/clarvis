@@ -53,9 +53,9 @@ export async function extractLastAssistantMessage(path: string): Promise<{text: 
               // Extract metadata using existing function
               const metadata = extractMetadata(text);
               
-              // Strip metadata line if present (task 3.3 functionality)
-              const cleanedText = metadata 
-                ? text.replace(/^clarvis:\[.*?\]\n/, '') 
+              // Strip metadata line if present (can be at start or end of message)
+              const cleanedText = metadata
+                ? text.replace(/(\n\n?)clarvis:\[.*?\]$/g, '')
                 : text;
               
               return metadata
